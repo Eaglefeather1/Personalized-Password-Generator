@@ -1,0 +1,113 @@
+#:kivy 1.11.0
+#:import Factory kivy.factory.Factory
+
+<WindowManager>:
+    MainWindow:
+        name: 'generator'
+    SecondWindow:
+        name: 'database'
+
+<Label>:
+    font_size: 18
+    size_hint: 1, 0.1
+
+<TextInput>:
+    font_size: 35
+    size_hint: 1, 0.09
+
+<PasswordPopup@Popup>:
+    title: 'Generated Password'
+    size_hint: (None, None)
+    size: (600, 200)
+    Label:
+        text: app.password
+        font_size: 40
+        size_hint_y: 1
+
+#<MasterPopup@Popup>:
+#    title: 'Enter Password'
+#    size_hint: (None, None)
+#    size: (600, 200)
+#    TextInput:
+#        id: masterPassword
+#        font_size: 30
+#        size_hint_y: 1
+#    Button:
+#        text: "Continue"
+#        font_size: 30
+#        on_release:
+#            root.manager.current = "database" if masterPassword.text == "tim" else "main"
+
+
+<MainWindow>:
+    container: container
+    FloatLayout:
+        id: container
+        Label:
+            text: "Enter the name of the service you are generating this password for:"
+            pos_hint: {"x":0, "y":0.92}
+        TextInput:
+            id: serviceName
+            pos_hint: {"x":0, "y":0.84}
+        Label:
+            text: "Enter your username for this service:"
+            pos_hint: {"x":0, "y":0.76}
+        TextInput:
+            id: user
+            pos_hint: {"x":0, "y":0.68}
+        Label:
+            text: "Enter a word that you can easily remember (e.g. last name, birth city, partner's name):"
+            pos_hint: {"x":0, "y":0.6}
+        TextInput:
+            id: wordOne
+            pos_hint: {"x":0, "y":0.52}
+        Label:
+            text: "Enter a different word that you can easily remember (e.g. last name, birth city, partner's name):"
+            pos_hint: {"x":0, "y":0.44}
+        TextInput:
+            id: wordTwo
+            pos_hint: {"x":0, "y":0.36}
+        Label:
+            text: "Enter a number that you can easily remember (e.g. birth year, age, address number):"
+            pos_hint: {"x":0, "y":0.28}
+        TextInput:
+            id: number
+            pos_hint: {"x":0, "y":0.2}
+        Button:
+            text: "Generate Password"
+            font_size: 40
+            size_hint_x: 1
+            size_hint_y: 0.15
+            pos_hint: {"x":0, "y":0.05}
+            on_release: 
+                app.passwordCreate(serviceName.text, user.text, wordOne.text, wordTwo.text, number.text)
+                Factory.PasswordPopup().open()
+                serviceName.text = ""
+                user.text = ""
+                wordOne.text = ""
+                wordTwo.text = ""
+                number.text = ""
+        Button:
+            text: "Password Database"
+            font_size: 20
+            size_hint_x: 1
+            size_hint_y: 0.05
+            on_release:
+                root.manager.current = "database"
+
+<SecondWindow>:
+    FloatLayout:
+        Label:
+            text: "Passwords"
+            font_size: 50
+            pos_hint: {"x": 0, "y": 0.9}
+        Label:
+            text: app.fullTxtValue
+            pos_hint: {"x": 0, "y": 0.6}
+        Button:
+            text: "Password Generator"
+            font_size: 20
+            size_hint_x: 1
+            size_hint_y: 0.05
+            on_release:
+                root.manager.current = "generator"
